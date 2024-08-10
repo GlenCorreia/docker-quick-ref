@@ -114,3 +114,12 @@ This creates an image. You can now run the image to build a container.
 `$ docker run -d -p 3000:3000 node-app:1.0`<br>
 
 Now you can visit localhost:3000 to check the running application.
+
+### Run Ruby Container
+
+The following command pulls the image: `$ docker pull ruby:3.3.4-bookworm`<br>
+The following command runs ruby in interactive mode (irb): `docker run -it ruby:3.3.4-bookworm`<br>
+
+To start a container: `docker start <container_id_or_name>`<br>
+To access a container: `docker exec -it <container_id_or_name> /bin/bash`<br>
+ 
