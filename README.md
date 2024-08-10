@@ -85,7 +85,32 @@ To delete an image, run the following command:<br>
 We want to deploy our app as a Docker container, with the database and other services, that will also run as Docker containers.
 For that we need to create a _'definition' of how to build an image from our application_.
 
-That definition is written in a file called Dockerfile. Dockerfile is a text document that contains commands to assemble an image.
-
+That definition is written in a file called Dockerfile. Dockerfile is a text document that contains commands to assemble an image. Docker can then build an image by reading those instructions.
 
 ![Dockerfile to Container](./assets/dockerfile-to-container.png)
+
+Dockerfiles start from a parent image or **"base image"**, it's a Docker image that your images is based on.
+
+For a JavaScript application, you will have `node` base image.
+For Java you will have `tomcat`. For Python you will have `python`.
+
+#### Dockerfile structure
+
+FROM - builds the image from the specified image.<br>
+COPY - copies files or directories from <src> and adds them to the filesystem of the container at the path <dest>.<br>
+WORKDIR - sets the working directory for all the following commands.<br>
+RUN - will execute any command in a shell inside the container environment.<br>
+CMD - the instruction that is to be executed when a Docker container starts. There can only be one CMD instruction in a Dockerfile.<br>
+
+#### Building an image from the Dockerfile
+
+`$ docker build -t node-app:1.0 .`<br>
+`$ docker build -t {name:tag} {location_of_dockerfile}`<br>
+
+>-t or --tag sets a name and optionally a tag in the 'name:tag' format.
+
+This creates an image. You can now run the image to build a container.
+
+`$ docker run -d -p 3000:3000 node-app:1.0`<br>
+
+Now you can visit localhost:3000 to check the running application.
