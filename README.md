@@ -1,4 +1,4 @@
-![image info](./unimportant_assets/whale.png)
+![image info](./unimportant-assets/whale.png)
 
 # Docker Notes
 
