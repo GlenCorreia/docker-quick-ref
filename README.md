@@ -1,22 +1,12 @@
 # Docker Notes 🐳
 
-### <u>Docker Images vs Containers</u>
-A package or artifact that we produce with Docker is called a **Docker Image**.
+### Docker Images vs Containers
 
-- **Definition**: A Docker image is a lightweight, standalone, and executable software package that includes everything needed to run a piece of software—code, runtime, libraries, environment variables, and configuration files.
-- **Static**: An image is a read-only template. It’s a blueprint or a snapshot of an application and its environment.
-- **Creation**: Docker images are built from a Dockerfile, which defines the steps to assemble the image, like installing software packages, setting environment variables, etc.
-- **Layers**: Docker images are composed of multiple layers, where each layer represents a change or addition to the image. Layers are reusable across different images, making the images lightweight.
+A **Docker Image** is a read-only, lightweight package that includes all the necessary components to run software, built from a Dockerfile and composed of reusable layers.
 
-A **Docker Container** is a running instance of a Docker Image.
+A **Docker Container** is a running, isolated instance of a Docker image, providing a virtualized environment that can be started, stopped, or deleted.
 
-- **Definition**: A Docker container is a running instance of a Docker image. It’s a virtualized runtime environment that is isolated from the host system and other containers.
-- **Dynamic**: Containers are mutable. Once a container is created, it can be started, stopped, moved, or deleted.
-- **Execution**: Containers are the active entities that perform the actual work. When you run a Docker image, you create a container.
-- **Isolation**: Containers provide an isolated environment for the application, with their own file system, networking, and process space.
-
-
-In summary, Images are the blueprints or templates used to create containers. They are static and read-only. Containers are the instances of images. They are dynamic, running, and can be modified while running.
+In summary, images are the blueprints or templates used to create containers. They are static and read-only. Containers are the instances of images. They are dynamic, running, and can be modified while running.
 
 You can run multiple containers from 1 image.
 
@@ -26,7 +16,70 @@ Run the following command in terminal to get the list of all images that are the
 Run the following command to get a list of containers. <br>
 `$ docker ps`
 
-### <u>Docker Registries</u>
+### Docker Registries
 
+A storage and distribution system for Docker images. Official images available for applications like Redis, Mongo, Postgres, etc. Official images are maintained by the software authors or in collaboration with the Docker community. Docker hosts one of the biggest Docker registry, called the **Docker Hub**.
 
+### Docker Image Versions
 
+Docker images are versioned. These versions are called **tags**. **latest** tag refers to the latest image that was built.
+
+### Main Docker commands - Pull and Run Docker containers
+
+To download an image from the registry (default is Docker Hub), run the following command:<br>
+`$ docker pull {name}:{tag}`<br>
+`$ docker pull nginx:1.27`<br>
+> If we pull an image without the version tag, it will pull the latest image. $ docker pull nginx.
+
+NOW we have an image locally. But it is only useful if we run it in a container environment.
+
+Run the following command to start a container:<br>
+`$ docker run nginx:1.27`<br>
+
+If you hit ctrl+c in the terminal, the container will die. In order to run the container in backgroud (in detach mode), use -d or --detach flag.<br>
+`$ docker run -d nginx:1.27`<br>
+Runs container in background, and prints the container ID.<br>
+You may still want to see the logs, which can be useful for debugging, etc.<br>
+`$ docker logs {container_id}`<br>
+`$ docker logs example3c804ea74c1b49fc7112c1e7b21c167f1d751e78312585e47aexample`<br>
+
+To stop a running container, use following command:<br>
+`$ docker stop {container_id}`<br>
+
+We can use the run command directly, without even doing a pull of the image. Docker pulls image automatically, if it doesn't find it locally. Example:<br>
+`$ docker run mariadb:11.1`<br>
+> The above command will create a container, but it will throw an error, since MariaDB will need a root password to start.
+
+### Port Binding
+
+The application inside the container runs in an isolated Docker network. So we can't access it from our local computer browser simply. We need to first expose the container to the host (the machine the container runs on). Container runs on a specific port. NGINX runs on port 80. Redis runs on port 6379. 
+
+For that we will have to run the application in the following way:<br>
+`$ docker run -d -p {HOST_PORT}:{CONTAINER_PORT} nginx`<br>
+`$ docker run -d -p 9000:80 nginx`<br>
+(-p or --p = Publish a container port to the host)<br>
+Visit http://localhost:9000 to verify nginx is running.<br>
+Standard to use the same port on your host as your container is using.
+
+> **$ docker run** command creates a new container every time. It does not reuse the container that we created previously. Which means multiple containers will be created. However, if you do **$ docker ps**, only the running container is shown. If you want to check all the previous containers, even the inactive ones, use the following command:<br>
+`$ docker ps -a`
+
+To restart a stopped container, without having to create another new container, run the following command:<br>
+`$ docker start {container_id}`<br>
+
+> Instead of using id of the container, you can even use the name, which was given by docker.<br>
+
+`$ docker start {container_name}`<br>
+
+You can also give a container a specific name while creation. Use --name flag.<br>
+`$ docker run --name surface-tension -d -p 9000:80 nginx`<br>
+
+To delete a container, run following command:<br>
+`$ docker rm {container_name|container_id}`<br>
+
+To delete an image, run the following command:<br>
+`$ docker rmi {image_id}`<br>
+
+### Private Docker Registries
+
+Unlike Docker Hub, you can host your images on a private Docker Registry. Some examples include AWS ECR, Azure Container Registry, etc.
