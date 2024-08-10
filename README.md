@@ -1,3 +1,5 @@
+![image info](./unimportant_assets/whale.png)
+
 # Docker Notes
 
 ### Docker Images vs Containers
