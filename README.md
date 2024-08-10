@@ -1,8 +1,6 @@
-![image info](./unimportant-assets/whale.png)
+# Docker Notes 🐳
 
-# Docker Notes
-
-### Docker Images vs Containers
+### <u>Docker Images vs Containers</u>
 A package or artifact that we produce with Docker is called a **Docker Image**.
 
 - **Definition**: A Docker image is a lightweight, standalone, and executable software package that includes everything needed to run a piece of software—code, runtime, libraries, environment variables, and configuration files.
@@ -17,4 +15,18 @@ A **Docker Container** is a running instance of a Docker Image.
 - **Execution**: Containers are the active entities that perform the actual work. When you run a Docker image, you create a container.
 - **Isolation**: Containers provide an isolated environment for the application, with their own file system, networking, and process space.
 
+
 In summary, Images are the blueprints or templates used to create containers. They are static and read-only. Containers are the instances of images. They are dynamic, running, and can be modified while running.
+
+You can run multiple containers from 1 image.
+
+Run the following command in terminal to get the list of all images that are there on your Docker. <br>
+`$ docker images`
+
+Run the following command to get a list of containers. <br>
+`$ docker ps`
+
+### <u>Docker Registries</u>
+
+
+
