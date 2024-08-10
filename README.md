@@ -80,6 +80,12 @@ To delete a container, run following command:<br>
 To delete an image, run the following command:<br>
 `$ docker rmi {image_id}`<br>
 
-### Private Docker Registries
+### Dockerfile - Dockerize a Node.js app
 
-Unlike Docker Hub, you can host your images on a private Docker Registry. Some examples include AWS ECR, Azure Container Registry, etc.
+We want to deploy our app as a Docker container, with the database and other services, that will also run as Docker containers.
+For that we need to create a _'definition' of how to build an image from our application_.
+
+That definition is written in a file called Dockerfile. Dockerfile is a text document that contains commands to assemble an image.
+
+
+![Dockerfile to Container](./assets/dockerfile-to-container.png)
